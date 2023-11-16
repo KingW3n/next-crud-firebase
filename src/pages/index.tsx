@@ -5,23 +5,30 @@ import Tabela from '@/components/Tabela'
 import Cliente from '@/core/Cliente/Cliente'
 import Botao from '@/components/Botao'
 import Formulario from '@/components/Formulario'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import ClienteRepositorio from '@/core/Cliente/ClienteRepositorio'
+import ColecaoCliente from '@/backFirebase/db/ColecaoCliente'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
+  const repo: ClienteRepositorio = new ColecaoCliente()
+
   const [visivel, setVisivel] =useState<'tabela' | 'formulario'>('tabela')
   const [cliente, SetCliente] = useState<Cliente>(Cliente.clienteVazio())
-  const clientes = [
-    new Cliente('Thainá Alves', 27,'1'),
-    new Cliente('Marizene Oliveira', 50,'2'),
-    new Cliente('Wendel Junior', 25,'3'),
-    new Cliente('Wendel Barbosa', 60,'4'),
-    new Cliente('Beatriz', 18,'5'),
-    new Cliente('Victor', 23,'6'),
-    new Cliente('Maria', 73,'7')
-  ]
+  const [clientes, SetClientes] = useState<Cliente[]>([])
+
+useEffect(()=> {
+  obtertodos()
+},[])
+
+function obtertodos(){
+  repo.obterTodos().then(clientes =>{
+    SetClientes(clientes)
+    setVisivel('tabela')
+  }) 
+}
 
   function clienteSelecionado (cliente:Cliente){
     SetCliente(cliente)
@@ -29,13 +36,14 @@ export default function Home() {
   }
 
 
-  function clienteExcluido(cliente:Cliente){
-    console.log ('  excluir' +cliente.nome)
+  async function clienteExcluido(cliente:Cliente){
+     await repo.excluir(cliente)
+     obtertodos()
   }
 
-  function salvarCliente(cliente:Cliente){
-    console.log(cliente)
-    setVisivel('tabela')
+  async function salvarCliente(cliente:Cliente){
+    await repo.salvar(cliente)
+    obtertodos()
   } 
 
   function novoCliente(cliente:Cliente){
