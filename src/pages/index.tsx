@@ -11,6 +11,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
+  const [visivel, setVisivel] =useState<'tabela' | 'formulario'>('tabela')
+  const [cliente, SetCliente] = useState<Cliente>(Cliente.clienteVazio())
   const clientes = [
     new Cliente('Thainá Alves', 27,'1'),
     new Cliente('Marizene Oliveira', 50,'2'),
@@ -22,7 +24,8 @@ export default function Home() {
   ]
 
   function clienteSelecionado (cliente:Cliente){
-console.log (cliente.nome)
+    SetCliente(cliente)
+    setVisivel('formulario')
   }
 
 
@@ -32,9 +35,14 @@ console.log (cliente.nome)
 
   function salvarCliente(cliente:Cliente){
     console.log(cliente)
+    setVisivel('tabela')
   } 
 
-  const [visivel, setVisivel] =useState<'tabela' | 'formulario'>('tabela')
+  function novoCliente(cliente:Cliente){
+    setVisivel('formulario')
+    SetCliente(Cliente.clienteVazio())
+  } 
+
 
   return (
     <div className='flex h-screen justify-center items-center 
@@ -44,7 +52,7 @@ console.log (cliente.nome)
         {visivel ==='tabela' ? (
           <>
             <div className='flex justify-end'>
-              <Botao onClick={()=>setVisivel('formulario')} classname='mb-4'>Novo Cliente</Botao>
+              <Botao onClick={novoCliente} classname='mb-4'>Novo Cliente</Botao>
             </div>
             <Tabela clientes={clientes}
               clienteSelecionado ={clienteSelecionado}
@@ -52,7 +60,7 @@ console.log (cliente.nome)
             ></Tabela>
           </>
         ):(
-          <Formulario cliente={clientes[0]} cancelado={()=>setVisivel('tabela')} clienteMudou={salvarCliente}></Formulario>
+          <Formulario cliente={cliente} cancelado={()=>setVisivel('tabela')} clienteMudou={salvarCliente}></Formulario>
         )}
         
        
