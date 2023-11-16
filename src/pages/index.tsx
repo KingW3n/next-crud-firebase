@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Layout from '@/components/Layout'
 import Tabela from '@/components/Tabela'
 import Cliente from '@/core/Cliente/Cliente'
+import Botao from '@/components/Botao'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,9 @@ console.log (cliente.nome)
         bg-gradient-to-r to-purple-500 from-blue-600 
         text-white'>
       <Layout titulo='Cadastro simples'>
+        <div className='flex justify-end'>
+          <Botao cor="blue" classname='mb-4'>Novo Cliente</Botao>
+        </div>
         <Tabela clientes={clientes}
         clienteSelecionado ={clienteSelecionado}
         clienteExcluido={clienteExcluido}
