@@ -10,7 +10,7 @@ const config: Config = {
   safelist:[
     /^bg-/,
     /^to-/,
-    /^from/
+    /^from-/
   ]
  } ,
   theme: {

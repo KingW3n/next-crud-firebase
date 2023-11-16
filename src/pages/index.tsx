@@ -4,6 +4,7 @@ import Layout from '@/components/Layout'
 import Tabela from '@/components/Tabela'
 import Cliente from '@/core/Cliente/Cliente'
 import Botao from '@/components/Botao'
+import Formulario from '@/components/Formulario'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,12 +35,13 @@ console.log (cliente.nome)
         text-white'>
       <Layout titulo='Cadastro simples'>
         <div className='flex justify-end'>
-          <Botao cor="blue" classname='mb-4'>Novo Cliente</Botao>
+          <Botao classname='mb-4'>Novo Cliente</Botao>
         </div>
         <Tabela clientes={clientes}
         clienteSelecionado ={clienteSelecionado}
         clienteExcluido={clienteExcluido}
         ></Tabela>
+        <Formulario cliente={clientes[0]}></Formulario>
       </Layout>
     </div>
   )
